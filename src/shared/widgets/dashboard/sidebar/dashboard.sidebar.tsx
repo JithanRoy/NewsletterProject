@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { useUser } from '@clerk/nextjs';
 import {ICONS} from "../../../utils/icons";
 import DashboardItems from "./dashboard.items";
