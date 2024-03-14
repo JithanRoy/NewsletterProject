@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import {getEmails} from "../../../../actions/get.emails";
 
 const Write = () => {
   const [emailTitle, setEmailTitle] = useState("");
@@ -22,6 +23,20 @@ const Write = () => {
       const formattedTitle = emailTitle.replace(/\s+/g, "-").replace(/&/g, "-");
       router.push(`/dashboard/new-email?subject=${formattedTitle}`);
     }
+  };
+
+  useEffect(() => {
+    FindEmails();
+  }, [user]);
+
+  const FindEmails = async () => {
+    await getEmails({ newsLetterOwnerId: user?.id! })
+      .then((res) => {
+        setEmails(res);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
