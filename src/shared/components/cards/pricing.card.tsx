@@ -1,18 +1,20 @@
-import React from 'react';
-import {freePlan, GrowPlan, scalePlan} from "../../../app/configs/constants";
-import {ICONS} from "../../utils/icons";
-import {Button} from '@nextui-org/react';
-import {useRouter} from "next/router";
+import { stripeSubscribe } from "@/actions/stripe.subscribe";
+import { GrowPlan, freePlan, scalePlan } from "@/app/configs/constants";
+import { ICONS } from "@/shared/utils/icons";
+import { useUser } from "@clerk/nextjs";
+import { Button } from "@nextui-org/button";
+import { useRouter } from "next/navigation";
 
 const PricingCard = ({active}:{active: string}) => {
-  // const history = useRouter();
-  // const handleSubscription = async ({price}: { price: string}) => {
-  //   await stripeSubscribe({price: price, userId: user?.id! }).then(
-  //     (res:any) => {
-  //       history.push(res);
-  //     }
-  //   );
-  // };
+  const { user } = useUser();
+  const history = useRouter();
+  const handleSubscription = async ({ price }: { price: string }) => {
+    await stripeSubscribe({ price: price, userId: user?.id! }).then(
+      (res: any) => {
+        history.push(res);
+      }
+    );
+  };
   return (
     <div className="w-full md:flex items-start justify-around py-8">
       {/* free plan */}

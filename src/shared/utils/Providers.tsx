@@ -5,16 +5,25 @@ import {usePathname} from "next/navigation";
 import { useUser } from "@clerk/nextjs";
 import DashboardSidebar from "../widgets/dashboard/sidebar/dashboard.sidebar";
 import {Toaster} from "react-hot-toast";
+import {addStripe} from "../../actions/add.stripe";
 
 interface ProviderProps {
   children: React.ReactNode;
 }
 
+const isStripeCustomerIdHas = async () => {
+  await addStripe();
+};
+
 export default function Providers({ children }: ProviderProps) {
   const pathname = usePathname();
-  const {isLoaded} = useUser();
+  const {isLoaded, user} = useUser();
   if (!isLoaded) {
     return null;
+  } else {
+    if(user) {
+      isStripeCustomerIdHas();
+    }
   }
 
   return(

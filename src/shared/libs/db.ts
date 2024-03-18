@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 import { driver, createAstraUri } from "stargate-mongoose";
 
 export const connectDb = async () => {
@@ -8,24 +8,25 @@ export const connectDb = async () => {
       process.env.ASTRA_DB_APPLICATION_TOKEN!
     );
 
-    //check if there is an existing connection
-    if(mongoose.connection.readyState !== 0) {
+    // Check if there's an existing connection
+    if (mongoose.connection.readyState !== 0) {
       // Disconnect the existing connection
-      await mongoose.connect(uri, {
-        isAstra: true,
-      });
+      await mongoose.disconnect();
     }
-    mongoose.set('autoCreate', true);
+    mongoose.set("autoCreate", true);
     mongoose.setDriver(driver);
+
     await mongoose
       .connect(uri, {
         isAstra: true,
-      }).then((res) => {
-        console.log('connected');
-      }).catch((r) => {
+      })
+      .then((res) => {
+        console.log("connected");
+      })
+      .catch((r) => {
         console.log(r);
       });
   } catch (error) {
     console.log(error);
   }
-}
+};

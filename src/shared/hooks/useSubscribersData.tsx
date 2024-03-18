@@ -1,7 +1,7 @@
 "use client";
 
 // @ts-ignore
-import { getSubscribers } from "@/actions/get.subscribers";
+import { getSubscribers } from "../../actions/get.subscribers";
 import { useClerk } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
 

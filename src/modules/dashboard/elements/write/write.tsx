@@ -1,5 +1,6 @@
 "use client";
 
+import { getEmails } from "@/actions/get.emails";
 import { ICONS } from "@/shared/utils/icons";
 import { useClerk } from "@clerk/nextjs";
 import { Button } from "@nextui-org/react";
@@ -7,7 +8,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import {getEmails} from "../../../../actions/get.emails";
+import {deleteEmail} from "../../../../actions/delete.email";
 
 const Write = () => {
   const [emailTitle, setEmailTitle] = useState("");
@@ -27,6 +28,7 @@ const Write = () => {
 
   useEffect(() => {
     FindEmails();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   const FindEmails = async () => {
@@ -37,6 +39,12 @@ const Write = () => {
       .catch((error) => {
         console.log(error);
       });
+  };
+
+  const deleteHanlder = async (id: string) => {
+    await deleteEmail({ emailId: id }).then((res) => {
+      FindEmails();
+    });
   };
 
   return (
@@ -62,6 +70,7 @@ const Write = () => {
             >
               <span
                 className="absolute block z-20 right-2 top-2 text-2xl cursor-pointer"
+                onClick={() => deleteHanlder(i?._id)}
               >
                 {ICONS.delete}
               </span>
@@ -97,7 +106,7 @@ const Write = () => {
             />
             <Button
               color="primary"
-              className="rounded text-xl mt-3 bg-primary-400 py-3 px-5 text-white"
+              className="rounded text-xl mt-3"
               onClick={handleCreate}
             >
               Continue

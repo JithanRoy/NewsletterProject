@@ -3,7 +3,6 @@
 import {useSearchParams} from "next/navigation";
 import Link from "next/link";
 import {ICONS} from "../../../shared/utils/icons";
-import EmailEditor from "react-email-editor";
 import Emaileditor from "../../../shared/components/editor/email.editor";
 
 const Page = () => {
