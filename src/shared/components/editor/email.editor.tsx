@@ -1,4 +1,5 @@
 "use client";
+
 import EmailEditor, { EditorRef, EmailEditorProps } from "react-email-editor";
 import React, { useEffect, useRef, useState } from "react";
 import { DefaultJsonData } from "@/assets/mails/default";
@@ -7,8 +8,8 @@ import { useRouter } from "next/navigation";
 import { Button } from "@nextui-org/react";
 import { saveEmail } from "@/actions/save.email";
 import toast from "react-hot-toast";
-import { GetEmailDetails } from "../../../actions/get-email-details";
-import {sendEmail} from "../../utils/email.sender";
+import { GetEmailDetails } from "@/actions/get-email-details";
+import { sendEmail } from "@/shared/utils/email.sender";
 
 const Emaileditor = ({ subjectTitle }: { subjectTitle: string }) => {
   const [loading, setLoading] = useState(true);
@@ -24,7 +25,7 @@ const Emaileditor = ({ subjectTitle }: { subjectTitle: string }) => {
       const { design, html } = data;
       setJsonData(design);
       await sendEmail({
-        userEmail: ["jithanroyjony@gmail.com"],
+        userEmail: ["jonyyy81@gmail.com"],
         subject: subjectTitle,
         content: html,
       }).then((res) => {
@@ -34,27 +35,30 @@ const Emaileditor = ({ subjectTitle }: { subjectTitle: string }) => {
     });
   };
 
-  const onReady: EmailEditorProps["onReady"] = () => {
-    const unlayer: any = emailEditorRef.current?.editor;
-    unlayer.loadDesign(jsonData);
-  };
-
   useEffect(() => {
     getEmailDetails();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
+
+  const onReady: EmailEditorProps["onReady"] = () => {
+    const unlayer: any = emailEditorRef.current?.editor;
+    unlayer.loadDesign(jsonData);
+  };
 
   const saveDraft = async () => {
     const unlayer = emailEditorRef.current?.editor;
 
     unlayer?.exportHtml(async (data) => {
       const { design } = data;
-      await saveEmail({
+      console.log(design.body);
+      let res: void;
+      res = await saveEmail({
         title: subjectTitle,
         content: JSON.stringify(design),
         newsLetterOwnerId: user?.id!,
       }).then((res: any) => {
-        toast.success("Draft Saved");
+        console.log(res);
+        toast.success(res.message);
         history.push("/dashboard/write");
       });
     });

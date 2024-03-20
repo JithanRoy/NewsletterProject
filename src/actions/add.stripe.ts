@@ -25,13 +25,12 @@ export const addStripe = async () => {
           email: user?.emailAddresses[0].emailAddress,
           name: user?.firstName! + user?.lastName,
         })
-        .then(async (customer) => {
+        .then(async (customer: any) =>
           await Membership.create({
             userId: user?.id,
             stripeCustomerId: customer.id,
             plan: "LAUNCH",
-          });
-        });
+          }));
     }
   } catch (error) {
     console.log(error);

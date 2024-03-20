@@ -5,9 +5,10 @@ import { useUser } from "@clerk/nextjs";
 import { Button } from "@nextui-org/button";
 import { useRouter } from "next/navigation";
 
-const PricingCard = ({active}:{active: string}) => {
+const PricingCard = ({ active }: { active: string }) => {
   const { user } = useUser();
   const history = useRouter();
+
   const handleSubscription = async ({ price }: { price: string }) => {
     await stripeSubscribe({ price: price, userId: user?.id! }).then(
       (res: any) => {
@@ -15,6 +16,7 @@ const PricingCard = ({active}:{active: string}) => {
       }
     );
   };
+
   return (
     <div className="w-full md:flex items-start justify-around py-8">
       {/* free plan */}
@@ -36,7 +38,7 @@ const PricingCard = ({active}:{active: string}) => {
         <h5 className="font-clashDisplay uppercase text-cyber-ink text-3xl pb-8 border-b border-[#000]">
           Launch
         </h5>
-        <br/>
+        <br />
         <div className="border-b pb-8 border-[#000]">
           <h5 className="font-clashDisplay uppercase text-cyber-ink text-3xl">
             $0
@@ -52,7 +54,7 @@ const PricingCard = ({active}:{active: string}) => {
             <p className="pl-2 text-lg">{i.title}</p>
           </div>
         ))}
-        <br/>
+        <br />
         <Button color="primary" className="w-full text-xl !py-6">
           Get Started
         </Button>
@@ -80,7 +82,7 @@ const PricingCard = ({active}:{active: string}) => {
         <h5 className="font-clashDisplay uppercase text-cyber-ink text-3xl pb-8 border-b border-[#000]">
           GROW
         </h5>
-        <br/>
+        <br />
         <div className="border-b pb-8 border-black">
           <h5 className="font-clashDisplay uppercase text-cyber-ink text-3xl">
             ${active === "Monthly" ? "49" : "42"} /month
@@ -96,10 +98,18 @@ const PricingCard = ({active}:{active: string}) => {
             <p className="pl-2 text-lg">{i.title}</p>
           </div>
         ))}
-        <br/>
+        <br />
         <Button
           color="primary"
           className="w-full text-xl !py-6"
+          onClick={() =>
+            handleSubscription({
+              price:
+                active === "Monthly"
+                  ? "price_1OwVoEP5cIJIHAcPtdI9gSpS"
+                  : "price_1OwVjuP5cIJIHAcPMpjckQyl",
+            })
+          }
         >
           Get Started
         </Button>
@@ -128,7 +138,7 @@ const PricingCard = ({active}:{active: string}) => {
         <h5 className="font-clashDisplay uppercase text-cyber-ink text-3xl pb-8 border-b border-[#000]">
           SCALE
         </h5>
-        <br/>
+        <br />
         <div className="border-b pb-8 border-[#000]">
           <h5 className="font-clashDisplay uppercase text-cyber-ink text-3xl">
             ${active === "Monthly" ? "99" : "84"} /month
@@ -144,10 +154,18 @@ const PricingCard = ({active}:{active: string}) => {
             <p className="pl-2 text-lg">{i.title}</p>
           </div>
         ))}
-        <br/>
+        <br />
         <Button
           color="primary"
           className="w-full text-xl !py-6"
+          onClick={() =>
+            handleSubscription({
+              price:
+                active === "Monthly"
+                  ? "price_1OwVlnP5cIJIHAcPW2I6lqKX"
+                  : "price_1OwVnkP5cIJIHAcPBBS6YwEZ",
+            })
+          }
         >
           Get Started
         </Button>
