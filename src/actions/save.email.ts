@@ -7,7 +7,7 @@ export const saveEmail = async ({
                                   title,
                                   content,
                                   newsLetterOwnerId,
-                                }: {
+                                } : {
   title: string;
   content: string;
   newsLetterOwnerId: string;

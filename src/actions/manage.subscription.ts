@@ -1,12 +1,9 @@
 "use server";
+
 import { connectDb } from "@/shared/libs/db";
 import Stripe from "stripe";
 
-export const manageSubscription = async ({
-                                           customerId,
-                                         }: {
-  customerId: string;
-}) => {
+export const manageSubscription = async ({ customerId, } : { customerId: string;}) => {
   try {
     await connectDb();
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {

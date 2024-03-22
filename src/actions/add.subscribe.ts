@@ -9,8 +9,8 @@ export const subscribe = async ({
                                   email,
                                   username,
                                 }: {
-  email: string;
-  username: string;
+      email: string;
+      username: string;
 }) => {
   try {
     await connectDb();

@@ -5,7 +5,7 @@ const { Schema } = mongoose;
 const membershipSchema = new Schema(
   {
     userId: {
-      type: String,
+      type: String || any,
     },
     stripeCustomerId: {
       type: String,
@@ -17,5 +17,7 @@ const membershipSchema = new Schema(
   { timestamps: true }
 );
 
-const Membership = mongoose.models.Memberships || mongoose.model("Memberships", membershipSchema);
+const Membership =
+  mongoose.models.Memberships ||
+  mongoose.model("Memberships", membershipSchema);
 export default Membership;

@@ -1,17 +1,18 @@
-import { stripeSubscribe } from "@/actions/stripe.subscribe";
 import { GrowPlan, freePlan, scalePlan } from "@/app/configs/constants";
 import { ICONS } from "@/shared/utils/icons";
 import { useUser } from "@clerk/nextjs";
 import { Button } from "@nextui-org/button";
-import { useRouter } from "next/navigation";
+import { useRouter } from 'next/navigation';
+import {stripeSubscribe} from "../../../actions/stripe.subscribe";
 
 const PricingCard = ({ active }: { active: string }) => {
   const { user } = useUser();
   const history = useRouter();
 
   const handleSubscription = async ({ price }: { price: string }) => {
-    await stripeSubscribe({ price: price, userId: user?.id! }).then(
-      (res: any) => {
+    await stripeSubscribe({ price: price, userId: user?.id! })
+      .then((res: any) => {
+        console.log(res);
         history.push(res);
       }
     );
@@ -85,7 +86,7 @@ const PricingCard = ({ active }: { active: string }) => {
         <br />
         <div className="border-b pb-8 border-black">
           <h5 className="font-clashDisplay uppercase text-cyber-ink text-3xl">
-            ${active === "Monthly" ? "49" : "42"} /month
+            ${active === "Monthly" ? "42 /Month" : "504 /year"}
           </h5>
           <p className="text-lg">Billed {active}</p>
         </div>

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { driver, createAstraUri } from "stargate-mongoose";
+import { createAstraUri, driver } from "stargate-mongoose";
 
 export const connectDb = async () => {
   try {
@@ -15,11 +15,11 @@ export const connectDb = async () => {
     }
     mongoose.set("autoCreate", true);
     mongoose.setDriver(driver);
+    // mongoose.set("bufferCommands", false);
 
     await mongoose
       .connect(uri, {
         isAstra: true,
-        serverSelectionTimeoutMS: 30000,
       })
       .then((res) => {
         console.log("connected");
