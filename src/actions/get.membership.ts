@@ -12,6 +12,7 @@ export const getMemberShip = async () => {
         const membership = await Membership.findOne({
           userId: user?.id,
         });
+        console.log(membership);
         return membership;
       }
     });

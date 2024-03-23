@@ -15,15 +15,15 @@ export default function Providers({ children }: ProviderProps) {
   const pathname = usePathname();
   const { isLoaded, user } = useUser();
 
-  const isStripeCustomerIdHas = async () => {
-    await addStripe();
+  const isStripeCustomerIdHas = async ({ userId }: { userId: string }) => {
+    await addStripe({ userId: userId! });
   };
 
   if (!isLoaded) {
     return null;
   } else {
     if (user) {
-      isStripeCustomerIdHas();
+      isStripeCustomerIdHas({ userId: user?.id });
     }
   }
 

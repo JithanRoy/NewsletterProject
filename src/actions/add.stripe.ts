@@ -3,8 +3,9 @@
 import Membership from "@/models/membership.model";
 import { connectDb } from "@/shared/libs/db";
 import { currentUser } from "@clerk/nextjs";
+import { Stripe } from "stripe";
 
-export const addStripe = async () => {
+export const addStripe = async ({ userId }: { userId: string }) => {
   try {
     await connectDb();
     console.log("DB connected successfully");
@@ -12,20 +13,18 @@ export const addStripe = async () => {
     const user = await currentUser();
     console.log("username", user.id);
 
-    const membership = Membership.findById({
-      userId: user?.id,
-    });
+    const membership = await Membership.findOne({ userId });
 
     console.log("membership", membership);
 
-    // Handle membership data
     if (membership) {
       return;
     } else {
       const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
         apiVersion: "2023-10-16",
       });
-      await membership
+
+      await stripe.customers
         .create({
           email: user?.emailAddresses[0].emailAddress,
           name: user?.firstName! + user?.lastName,
@@ -37,6 +36,14 @@ export const addStripe = async () => {
             plan: "LAUNCH",
           });
         });
+
+      // Create new membership
+      // const memberships = await Membership.create({
+      //   userId: user?.id,
+      //   stripeCustomerId: user?.id,
+      //   plan: "LAUNCH",
+      // });
+      // return memberships;
     }
   } catch (error) {
     console.log(error);
