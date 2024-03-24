@@ -11,8 +11,11 @@ const PricingCard = ({ active }: { active: string }) => {
 
   const handleSubscription = async ({ price }: { price: string }) => {
     const res = await stripeSubscribe({ price: price, userId: user?.id! });
-    console.log(res);
-    history.push(res);
+    if (res) {
+      history.push(res);
+    } else {
+      console.log("price value not defined");
+    }
   };
 
   return (
@@ -104,7 +107,7 @@ const PricingCard = ({ active }: { active: string }) => {
             handleSubscription({
               price:
                 active === "Monthly"
-                  ? "price_1OwVoEP5cIJIHAcPtdI9gSpS"
+                  ? "price_1OxvxXP5cIJIHAcPeH6CP38Y"
                   : "price_1OwVjuP5cIJIHAcPMpjckQyl",
             })
           }

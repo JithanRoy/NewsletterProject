@@ -33,10 +33,10 @@ export async function generateAnalyticsData<T extends Document>(
 
     const count = await model.countDocuments({
       createdAt: {
-        $gte: startDate,
-        $lt: endDate,
+        $gte: startDate as Date,
+        $lt: endDate as Date,
       },
-    });
+    } as any);
 
     last7Months.push({ month: monthYear, count });
   }

@@ -10,13 +10,12 @@ export const stripeSubscribe = async ({
   price: string;
   userId: string;
 }) => {
-  console.log("pricefromstripe", price);
-  console.log("userIdfromStripe", userId);
-
   try {
     // const user = await Membership.findOne({ userId });
     const user = await currentUser();
-    console.log("user", user);
+    // if (!user) {
+    //   const user = await currentUser();
+    // }
 
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
       apiVersion: "2023-10-16",
@@ -24,8 +23,8 @@ export const stripeSubscribe = async ({
 
     const checkoutSession = await stripe.checkout.sessions.create({
       success_url: process.env.NEXT_PUBLIC_WEBSITE_URL + "/success",
-      cancel_url: process.env.NEXT_PUBLIC_WEBSITE_URL + "/error",
-      customer: user.stripeCustomerId,
+      // cancel_url: process.env.NEXT_PUBLIC_WEBSITE_URL + "/error",
+      // customer: user?.id,
       line_items: [
         {
           price: price,
@@ -33,14 +32,12 @@ export const stripeSubscribe = async ({
         },
       ],
       mode: "subscription",
-      subscription_data: {
-        metadata: {
-          payingUserId: userId,
-        },
-      },
+      // subscription_data: {
+      //   metadata: {
+      //     payingUserId: userId,
+      //   },
+      // },
     });
-    console.log("checkoutSession", checkoutSession);
-
     // If checkout session URL exists, return it
     if (checkoutSession.url) {
       return checkoutSession.url;

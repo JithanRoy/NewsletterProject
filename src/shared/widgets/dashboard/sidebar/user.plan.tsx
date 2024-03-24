@@ -12,11 +12,15 @@ const UserPlan = () => {
   const history = useRouter();
 
   const handleManage = async () => {
-    await manageSubscription({
+    const res = await manageSubscription({
       customerId: membershipData?.stripeCustomerId,
-    }).then((res: any) => {
-      history.push(res);
     });
+
+    if (res) {
+      history.push(res);
+    } else {
+      console.log("data not found");
+    }
   };
 
   return (
@@ -45,8 +49,8 @@ const UserPlan = () => {
         {membershipData?.plan === "LAUNCH"
           ? "2500"
           : membershipData?.plan === "SCALE"
-            ? "10,000"
-            : "1,00,000"}{" "}
+          ? "10,000"
+          : "1,00,000"}{" "}
         added
       </h6>
     </div>
