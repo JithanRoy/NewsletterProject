@@ -2,20 +2,17 @@ import { GrowPlan, freePlan, scalePlan } from "@/app/configs/constants";
 import { ICONS } from "@/shared/utils/icons";
 import { useUser } from "@clerk/nextjs";
 import { Button } from "@nextui-org/button";
-import { useRouter } from 'next/navigation';
-import {stripeSubscribe} from "../../../actions/stripe.subscribe";
+import { useRouter } from "next/navigation";
+import { stripeSubscribe } from "../../../actions/stripe.subscribe";
 
 const PricingCard = ({ active }: { active: string }) => {
   const { user } = useUser();
   const history = useRouter();
 
   const handleSubscription = async ({ price }: { price: string }) => {
-    await stripeSubscribe({ price: price, userId: user?.id! })
-      .then((res: any) => {
-        console.log(res);
-        history.push(res);
-      }
-    );
+    const res = await stripeSubscribe({ price: price, userId: user?.id! });
+    console.log(res);
+    history.push(res);
   };
 
   return (

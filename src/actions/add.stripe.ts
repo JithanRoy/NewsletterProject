@@ -8,14 +8,10 @@ import { Stripe } from "stripe";
 export const addStripe = async ({ userId }: { userId: string }) => {
   try {
     await connectDb();
-    console.log("DB connected successfully");
 
     const user = await currentUser();
-    console.log("username", user.id);
 
     const membership = await Membership.findOne({ userId });
-
-    console.log("membership", membership);
 
     if (membership) {
       return;
